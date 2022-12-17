@@ -25,7 +25,7 @@ const LoginForm = ({ setIsShow, setEamilResetPass }) => {
         if (user?.data?.user?.userType === "dj") {
           navigate("/");
         } else {
-          navigate("/user-dashboard");
+          navigate("/admin-dashboard");
         }
       }
     }

@@ -1,15 +1,22 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import {LogIn, AdminDashboard} from "./pages";
-// import { Layout } from "./layouts";
-// import { ClipLoader } from "react-spinners";
+import {LogIn, AdminDashboard, NotFound, UnAuthorized} from "./pages";
+import ProtectedRoutes from "./helper/ProtectedRoutes";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LogIn />}></Route>
-        <Route path="/user-dashboard" element={<AdminDashboard />}/>
+
+        {/*  admin access */}
+        <Route element={<ProtectedRoutes userType={"Admin"} /> }>
+          <Route index path="/admin-dashboard" element={<AdminDashboard />}/>
+          <Route path="/unauthorized" element={<UnAuthorized />}></Route>
+          <Route path="*" element={<NotFound />} />
+        </Route>
+
+        {/* public url */}
+        <Route path="/login" element={<LogIn />} />
       </Routes>
     </>
   );

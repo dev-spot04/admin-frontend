@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { FilterAdminModal } from "../../components";
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { useSelector, useDispatch } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -24,9 +21,8 @@ import axios from "axios";
 
 const AdminDashboard = () => {
     const [data, setData] = useState({})
-    // useEffect( async() => {
-    //     await axios.post('http://localhost:3005/api/user/count-total-users', )
-    // }, [])
+    const navigate = useNavigate()
+    const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,7 +53,6 @@ const AdminDashboard = () => {
     ];
 
     const AdminBox = (props) => {
-        console.log(props.bg)
         return (
             <div
                 className={`group max-2md:mb-6 mb-4 w-auto max-2md:w-[80%] max-2md:px-2 px-[40px] flex flex-col 
@@ -68,6 +63,11 @@ const AdminDashboard = () => {
             </div>
         )
     }
+
+    const logOut = () => {
+        localStorage.removeItem("user");
+        navigate("/login");
+    };
 
     return (
 
@@ -143,10 +143,10 @@ const AdminDashboard = () => {
                             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                         >
                             <MenuItem>
-                                <Avatar /> Account Details
+                                <Avatar /> Profile
                             </MenuItem>
                             <Divider />
-                            <MenuItem>
+                            <MenuItem onClick={logOut}>
                                 <ListItemIcon>
                                     <Logout fontSize="small" />
                                 </ListItemIcon>

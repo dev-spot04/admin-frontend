@@ -13,6 +13,8 @@ const initialState = {
   message: "",
 };
 
+// export const 
+
 export const loginAdmin = createAsyncThunk(
   "auth/loginAdmin",
   async (user, thunkAPI) => {
@@ -36,7 +38,7 @@ export const authSlice = createSlice({
       state.message = "";
     },
   },
-  
+
   extraReducers: (builder) => {
     builder
       //login
