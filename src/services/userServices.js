@@ -10,7 +10,25 @@ const getAdmin = async (currentUser) => {
   return response.data;
 };
 
+const upateProfile = async (userProfile, accessToken) => {
+  const response = await axios.post('PROFIE_UPDATE_URL', userProfile, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return response.data;
+};
 
-const userServices = { getAdmin};
+const updatePass = async (userPass, accessToken) => {
+  const response = await axios.post('UPDATE_PASSWORD', userPass, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return response.data;
+};
+
+
+const userServices = { getAdmin, upateProfile, updatePass};
 
 export default userServices;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loginAdmin, reset } from "../../../reducers/authSlice";
 import useLocalStorage from "../../../hooks/useLocalStorage";
-import axios from "axios";
+
 
 const LoginForm = ({ setIsShow, setEamilResetPass }) => {
-  const { email, setEmail, password, setPassword, isChecked, setIsChecked } =
+  const { email, setEmail, password, setPassword, isChecked } =
     useLocalStorage();
 
   const [error, setError] = useState("");
