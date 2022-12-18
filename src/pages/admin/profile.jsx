@@ -4,7 +4,6 @@ import { UpdatePasswordModalForm } from "../../components";
 
 export default function Profile() {
 
-    const [error, setError] = useState("");
     const user = JSON.parse(localStorage.getItem("user"));
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
@@ -29,10 +28,6 @@ export default function Profile() {
                                     <span>Email - </span><span className="mb-[30px]">{user.data.admin.email}</span>
                                 </div>
                                 <form method="POST" className="w-full">
-                                    <div className="font-inter text-red-light text-center">
-                                        {error}
-                                    </div>
-
                                     <div className="w-full mt-4 mb-3">
                                         <button
                                             onClick={(e) => {

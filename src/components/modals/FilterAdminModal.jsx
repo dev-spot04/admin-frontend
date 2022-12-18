@@ -93,7 +93,8 @@ const FilterAdminModal = ({ isOpen, setIsOpen }) => {
                   </figure>
                 </div>
                 <div>
-                  <form method="POST" 
+                  <form 
+                  // method="POST" 
                   // onSubmit={handleFilter}
                   >
                     <div className="relative">

@@ -6,15 +6,15 @@ const UnAuthorized = () => {
   const location = useLocation();
   const {
     data: {
-      user: { userType: typeOfUser },
+      user: { admin: fullName },
     },
   } = user;
 
   return (
     <>
-      {user && typeOfUser === "dj" ? (
+      {user && fullName === "dj" ? (
         <Navigate to="/" state={{ from: location }} replace></Navigate>
-      ) : typeOfUser === "user" ? (
+      ) : fullName === "user" ? (
         <Navigate
           to="/user-dashboard"
           state={{ from: location }}

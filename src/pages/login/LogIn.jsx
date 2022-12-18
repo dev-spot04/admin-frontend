@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   LoginForm,
   ResetPassword,
@@ -6,9 +7,13 @@ import {
 
 const LogIn = () => {
   const [isShow, setIsShow] = useState(0);
+  const navigate= useNavigate()
+  const user = JSON.parse(localStorage.getItem("user")) || null; 
   const [emailForResetPass, setEamilResetPass] = useState("");
+  
   useEffect(() => {
     document.title = "DJ-login";
+    if(user) navigate('/admin-dashboard')
   }, []);
 
   return (

@@ -11,15 +11,16 @@ const NotFound = () => {
       return;
     }
   });
+  
   return (
     <>
       {!user ? (
         <Navigate to="/login" />
-      ) : user && user?.data?.user?.userType === "dj" ? (
-        <Navigate to="/" state={{ from: location }} replace></Navigate>
-      ) : user && user?.data?.user?.userType === "user" ? (
+      ) : user && user?.data?.admin?.fullName === "Admin" ? (
+        <Navigate to="/admin-dashboard" state={{ from: location }} replace></Navigate>
+      ) : user && user?.data?.admin?.fullName === "Admin" ? (
         <Navigate
-          to="/user-dashboard"
+          to="/admin-dashboard"
           state={{ from: location }}
           replace
         ></Navigate>
