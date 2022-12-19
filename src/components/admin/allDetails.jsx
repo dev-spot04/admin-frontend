@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FilterAdminModal } from "../modals";
 import { useSelector } from "react-redux";
 import Table from '@mui/material/Table';
-import { USER_COUNT_URL } from "../../constant/constants";
+import { USER_COUNT_URL, GET_ALL_USERS } from "../../constant/constants";
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -13,11 +13,13 @@ import axios from "axios";
 
 const AllDetails = (props) => {
     const [data, setData] = useState({TotalUser: 0, TotalDj: 0, TotalRevenue: 6700, TotalGigs: 589})
+    const [tableData, setTableData] = useState ([]);
+
     const { user } = useSelector((state) => state.auth);
 
-    const fetchData = async () => {
+    const fetchData = async (LINK) => {
         try {
-            const data = await axios.get(USER_COUNT_URL, { headers: { Authorization: `Bearer ${user.data.token}`},});
+            const data = await axios.get(LINK, { headers: { Authorization: `Bearer ${user.data.token}`},});
             return data.data;
         } catch (err) {
             console.log('err')
@@ -25,33 +27,40 @@ const AllDetails = (props) => {
     }
 
     useEffect( () => {
-        fetchData()
+        fetchData(USER_COUNT_URL)
             .then(res => {
                 const response= res.data.count[0]
                 const {TotalDj, TotalUser} = response
                 setData(prev => ( {...prev, TotalDj, TotalUser}) )
             })
             .catch(err => console.log(err))
+
+        fetchData(GET_ALL_USERS)
+            .then(res => {
+                setTableData(res.data.dj)
+            })
+            .catch(err => console.log(err))
       }, []);
 
     const [isOpen, setIsOpen] = useState(false);
-    
+    console.log(tableData)
     function createData(
-        name: string,
-        val1: number,
-        val2: number,
-        val3: number,
-        val4: number,
+        sno: number,
+        email: string,
+        block: Boolean,
+        doj: string,
+        val3: string,
+        val4: string,
     ) {
-        return { name, val1, val2, val3, val4 };
+        return {sno, email, doj, block, val3, val4 };
     }
 
-    const rows = [
-        createData('Random Name', 159, 6.0, 24, 4.0),
-        createData('Peron Name', 237, 9.0, 37, 4.3),
-        createData('Dj Name', 262, 16.0, 24, 6.0),
-        createData('About', 305, 3.7, 67, 4.3)
-    ];
+    let sno= 1
+    const rows = 
+        tableData.map((rowData, sno) => {
+            return createData(`${sno+1}`,`${rowData.email}`, `${rowData.createdAt}`, `${rowData.blockStatus}`)
+        })
+
 
     const AdminBox = (props) => {
         return (
@@ -95,11 +104,10 @@ const AllDetails = (props) => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Heading 1</TableCell>
-                            <TableCell align="right">Heading 2</TableCell>
-                            <TableCell align="right">Heading 3</TableCell>
-                            <TableCell align="right">Heading 4</TableCell>
-                            <TableCell align="right">Heading 5</TableCell>
+                            <TableCell>S. No.</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Date Of Joining</TableCell>
+                            <TableCell align="right">Block</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -109,12 +117,11 @@ const AllDetails = (props) => {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {row.sno}
                                 </TableCell>
-                                <TableCell align="right">{row.val1}</TableCell>
-                                <TableCell align="right">{row.val2}</TableCell>
-                                <TableCell align="right">{row.val3}</TableCell>
-                                <TableCell align="right">{row.val4}</TableCell>
+                                <TableCell component="th" scope="row">{row.email}</TableCell>
+                                <TableCell >{row.block}</TableCell>
+                                <TableCell align="right">{row.doj}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

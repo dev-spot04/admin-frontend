@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADMIN_LOGIN } from "../constant/constants";
+import { ADMIN_LOGIN,  } from "../constant/constants";
 
 const getAdmin = async (currentUser) => {
   const response = await axios.get(ADMIN_LOGIN, {
@@ -21,6 +21,15 @@ const upateProfile = async (userProfile, accessToken) => {
 
 const updatePass = async (userPass, accessToken) => {
   const response = await axios.post('UPDATE_PASSWORD', userPass, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return response.data;
+};
+
+const getDjUsersList = async (accessToken) => {
+  const response = await axios.get('DJ_LIST_URL', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

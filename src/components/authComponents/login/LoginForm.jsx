@@ -165,12 +165,6 @@ const LoginForm = ({ setIsShow, setEamilResetPass }) => {
             {/* <div> */}
             <div className="flex flex-nowrap text-sm justify-between mt-4">
               <div className="text-blue text-[0.875rem] underline font-normal">
-                <span
-                  className="cursor-pointer"
-                  onClick={() => handleForgotPassword()}
-                >
-                  Forgot Password?
-                </span>
               </div>
             </div>
             <button
@@ -200,18 +194,6 @@ const LoginForm = ({ setIsShow, setEamilResetPass }) => {
               ) : (
                 "Login"
               )}
-            </button>
-            <button
-              className="w-full h-[3.125rem] rounded-3xl 
-              font-bold space-x-1 text-normal flex justify-center 
-              items-center py-1 px-4 bg-purple-dark text-center text-white"
-            >
-              <img
-                className="w-[1rem]"
-                src="/assets/icons/google_icon.png"
-                alt="google icon"
-              />
-              <span>Login with google</span>
             </button>
           </form>
           <span className="text-center block font-normal mt-8 mb-[0.781rem] 2xl:mb-[4.031rem] text-sm space-x-1">

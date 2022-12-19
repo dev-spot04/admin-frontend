@@ -36,7 +36,7 @@ const AdminNav = (props) => {
             >
                 <div className="container">
                     <div className="px-[42px] pt-[29px] select-none flex justify-between items-center">
-                        <div
+                        <div onClick={() => navigate('/admin-dashboard')}
                             className="w-[71px] h-[71px] bg-blue-light rounded-full 
                     flex flex-col justify-center items-center text-[1.5rem] leading-5 text-white"
                         >
@@ -76,9 +76,11 @@ const AdminNav = (props) => {
                                     overflow: 'visible',
                                     filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                                     mt: 1.5,
+                                    width:250,
+                                    height: 150,
                                     '& .MuiAvatar-root': {
-                                        width: 32,
-                                        height: 32,
+                                        width: 60,
+                                        height: 60,
                                         ml: -0.5,
                                         mr: 1,
                                     },
@@ -102,7 +104,9 @@ const AdminNav = (props) => {
                             <MenuItem onClick={()=>{
                                 const load= props.showDashboard ? '/admin-dashboard' : '/profile'
                                 navigate(load)
-                                }}>
+                                }}
+                                
+                                >
                                 <Avatar />{ props.showDashboard ?<>Dashboard</>  : <>Profile</>}
                             </MenuItem>
                             <Divider />
