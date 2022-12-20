@@ -56,7 +56,7 @@ export default function Calendar({
   library.add(faAngleLeft, faAngleRight);
 
   // memoizing the days of the entire month
-  const days = useMemo(() => {
+  const days = useMemo(() => { 
     return eachDayOfInterval({
       start: firstDayCurrentMonth,
       end: endOfMonth(firstDayCurrentMonth),

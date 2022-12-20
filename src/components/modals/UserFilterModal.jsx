@@ -4,11 +4,15 @@ import { faStar, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-// import { AdapterDayjs, DateRangePicker, LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 const UserFilterModal = ({ isOpen, setIsOpen }) => {
     library.add(faStar, faCaretRight);
-    const [value, setValue] = React.useState([null, null]);
+    const [firstDate, setFirstDate] = React.useState(null);
+    const [secondDate, setSecondDate] = React.useState(null);
     const formClose = () => { setIsOpen(false) };
 
     return (
@@ -20,7 +24,7 @@ const UserFilterModal = ({ isOpen, setIsOpen }) => {
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
                     leave="ease-in duration-200"
-                    leaveFrom="opacity-100" 
+                    leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
                     <div className="fixed inset-0 bg-trans-card bg-opacity-25" />
@@ -56,28 +60,37 @@ const UserFilterModal = ({ isOpen, setIsOpen }) => {
                                     // onSubmit={handleFilter}
                                     >
                                         <div className="relative">
-                                            {/* <LocalizationProvider
-                                                dateAdapter={AdapterDayjs}
-                                                localeText={{ start: 'First-Date', end: 'Last-Date' }}
-                                            >
-                                                <DateRangePicker
-                                                    value={value}
-                                                    onChange={(newValue) => {
-                                                        setValue(newValue);
-                                                    }}
-                                                    renderInput={(startProps, endProps) => (
-                                                        <React.Fragment>
-                                                            <TextField {...startProps} />
-                                                            <Box sx={{ mx: 2 }}> to </Box>
-                                                            <TextField {...endProps} />
-                                                        </React.Fragment>
-                                                    )}
-                                                />
-                                            </LocalizationProvider> */}
+                                            <h1 className="text-[1.4em] m-[2em] text-center ">Select Filter</h1>
+                                            <div className="w-[80%] mx-auto">
+                                                <h1>Date Of Joining</h1>
+                                                <div className="inline mt-[1em] mb-[1em]  max-sm:block max-sm:w-[80%] max-sm:mx-auto">
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DatePicker
+                                                            label="First Date"
+                                                            value={firstDate}
+                                                            onChange={(newDate) => {
+                                                                setFirstDate(newDate);
+                                                            }}
+                                                            renderInput={(params) => <TextField {...params} />}
+                                                        />
+                                                    </LocalizationProvider>
+                                                </div>
+                                                <div className="inline ml-[1em]">
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DatePicker
+                                                            label="Second Date"
+                                                            value={secondDate}
+                                                            onChange={(newValue) => {
+                                                                setSecondDate(newValue);
+                                                            }}
+                                                            renderInput={(params) => <TextField {...params} />}
+                                                        />
+                                                    </LocalizationProvider>
+                                                </div>
+                                            </div>
 
-                                            <h1 className="text-[1.4em] m-[2em] text-center">Select Filters</h1>
                                         </div>
-                                        <div className="flex justify-center mt-[1rem]">
+                                        <div className="flex justify-center mt-[1rem] mb-[1em]">
                                             <button
                                                 // disabled={!filterBtnDisable}
                                                 className="bg-blue hover:bg-mid-blue rounded-lg py-2 px-16 text-white font-roboto "
