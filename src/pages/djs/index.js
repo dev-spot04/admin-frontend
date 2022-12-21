@@ -1,1 +1,1 @@
-export { default as Djs } from "./Djs";
+export { default as DjProfile } from "./DjProfile";

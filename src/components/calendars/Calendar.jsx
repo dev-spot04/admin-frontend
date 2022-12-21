@@ -17,12 +17,14 @@ import {
   parseISO,
   startOfToday,
 } from "date-fns";
-import { getCalendarForDjProfile } from "../../reducers/calendarBookingSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Tooltip, tooltipClasses } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { GrLocation } from "react-icons/gr";
 import { BiTime } from "react-icons/bi";
+import { GET_DJ_CALANDER } from "../../constant/constants";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -39,42 +41,35 @@ const TooltipItem = styled(({ className, ...props }) => (
   },
 }));
 
-export default function Calendar({
-  isOpen,
-  selectedDay,
-  id,
-  selectAppropriateDate,
-}) {
+export default function Calendar() {
   const today = startOfToday();
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   const [showNextBtn, setShowNextBtn] = useState(false);
   const [showPrevBtn, setShowprevBtn] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(today);
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
-  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { djCalendarList } = useSelector((state) => state.calendarBookingList);
+  const {id} = useParams()
   library.add(faAngleLeft, faAngleRight);
-
+  const [djCalendarList, setDjCalendarList ]= useState([])
   // memoizing the days of the entire month
   const days = useMemo(() => { 
     return eachDayOfInterval({
       start: firstDayCurrentMonth,
       end: endOfMonth(firstDayCurrentMonth),
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMonth]);
+ 
+  const fetchCalendar = async() => {
+    const response = await axios.get(`${GET_DJ_CALANDER}${id}`, { headers: { Authorization: `Bearer ${user.data.token}` }})
+    return response.data.data
+  }
 
   useEffect(() => {
-    if (user) {
-      dispatch(
-        getCalendarForDjProfile({
-          currentUserId: id,
-          accessToken: user.data.token,
-        })
-      );
-    }
-  }, [user, dispatch, isOpen, id]);
-
+      fetchCalendar()
+      .then(res => setDjCalendarList(res.djBooking))
+      .catch( )
+  }, []);
   useEffect(() => {
     if (
       firstDayCurrentMonth.getFullYear() ===
@@ -185,7 +180,6 @@ export default function Calendar({
               <TooltipContainer
                 day={day}
                 djCalendarList={djCalendarList}
-                selectAppropriateDate={selectAppropriateDate}
                 selectedDay={selectedDay}
                 firstDayCurrentMonth={firstDayCurrentMonth}
               />
@@ -195,36 +189,20 @@ export default function Calendar({
       </div>
     </div>
   );
+  
 }
 
 const TooltipContainer = ({
   day,
   djCalendarList,
-  selectAppropriateDate,
   selectedDay,
   firstDayCurrentMonth,
 }) => {
   const [showTool, setShowTool] = useState(false);
 
   return (
-    <TooltipItem
-      open={showTool}
-      title={<CalendarTooltip day={day} />}
-      onOpen={() => {
-        const res = djCalendarList.some((booking) => {
-          const result =
-            booking.status === "Accepted" &&
-            isSameDay(parseISO(booking.date), day) &&
-            !isAfter(new Date(), day);
-          return result;
-        });
-        setShowTool(res);
-      }}
-      onClose={() => setShowTool(false)}
-    >
       <button
         type="button"
-        onClick={() => selectAppropriateDate(day)}
         className={classNames(
           isEqual(day, selectedDay) && "text-black-darkest",
           !isEqual(day, selectedDay) && isToday(day) && "text-red-light",
@@ -255,11 +233,11 @@ const TooltipContainer = ({
             />
           </div>
         ) : djCalendarList.some((booking) => {
-            if (isAfter(new Date(), day)) return true;
+          const date= booking.date.split('/')
+          const DjDate= new Date(date[2],date[1]-1,date[0])
+          
             const result =
-              (booking.status === "Off" &&
-                isSameDay(parseISO(booking.date), day)) ||
-              isAfter(new Date(), day);
+              booking.status === "Off" && isSameDay(DjDate, day)
             return result;
           }) ? (
           <div className="relative">
@@ -274,9 +252,11 @@ const TooltipContainer = ({
           </div>
         ) : djCalendarList &&
           djCalendarList.some((booking) => {
+            const date= booking.date.split('/')
+            const DjDate= new Date(date[2],date[1]-1,date[0])
+            
             const result =
-              booking.status === "Accepted" &&
-              isSameDay(parseISO(booking.date), day);
+              booking.status === "Accepted" && isSameDay(DjDate, day)
             return result;
           }) ? (
           <div className="relative">
@@ -302,73 +282,6 @@ const TooltipContainer = ({
           </div>
         )}
       </button>
-    </TooltipItem>
-  );
-};
-
-const CalendarTooltip = ({ day }) => {
-  const { djCalendarList } = useSelector((state) => state.calendarBookingList);
-  // console.log(djCalendarList);
-  let location = "";
-  let eventName = "";
-  let time = "";
-  let duration = "";
-  djCalendarList.some((djEvent) => {
-    const locationResult =
-      djEvent?.location && isSameDay(parseISO(djEvent.date), day);
-    const eventResult =
-      djEvent?.event && isSameDay(parseISO(djEvent.date), day);
-
-    const timeResult = djEvent?.time && isSameDay(parseISO(djEvent.date), day);
-    const durationResult =
-      djEvent?.eventDuration && isSameDay(parseISO(djEvent.date), day);
-    time = timeResult ? djEvent.time : "00:00 PM";
-    duration = durationResult ? djEvent.eventDuration : "0";
-    // console.log("duration", duration);
-    const eventTotalTime =
-      parseInt(time.split(" ")[0].split(":")[0]) + parseInt(duration);
-    let hours = eventTotalTime > 12 ? eventTotalTime - 12 : eventTotalTime;
-    // console.log("hours", hours);
-    let am_pm = hours <= 12 ? "PM" : "AM";
-    hours = hours < 10 ? "0" + hours : hours;
-    // const hrs = time.split(" ")[0].split(":")[0];
-    duration = hours + ":" + time.split(" ")[0].split(":")[1] + " " + am_pm;
-    // console.log(eventTotalTime);
-    location = locationResult ? djEvent.location : "No Location";
-    eventName = eventResult ? djEvent.event : "No  Name";
-    return locationResult;
-  });
-
-  return (
-    <>
-      <div className="bg-white p-[1rem]">
-        <h3 className="font-inter text-[28px] text-black-darkest">
-          {format(day, "MMM dd")}th
-        </h3>
-        <h1 className="font-inter text-[38px] text-black-darkest leading-none">
-          {`${
-            eventName.length > 10 ? `${eventName.substr(0, 10)}...` : eventName
-          }`}
-        </h1>
-        <p className="font-inter text-sm text-gray">showcase</p>
-        <div className="flex items-center">
-          <GrLocation className="w-[1rem] h-[1rem]" />
-          <p className="ml-[12px] font-inter text-[20px] text-black-darkest">
-            {/* 14 Thermas St */}
-            {`${
-              location.length > 10 ? `${location.substr(0, 10)}...` : location
-            }`}
-          </p>
-        </div>
-        <div className="flex items-center">
-          <BiTime className="w-[1rem] h-[1rem] text-black-darkest" />
-          <p className="ml-[12px] font-inter text-[20px] text-black-darkest">
-            {time}
-            {/* - {duration} */}
-          </p>
-        </div>
-      </div>
-    </>
   );
 };
 

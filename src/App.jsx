@@ -1,14 +1,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import {LogIn, AdminDashboard, NotFound, Profile,UserProfile, UnAuthorized, DjDashboard, BookingDashboard } from "./pages";
+import {LogIn, AdminDashboard, NotFound, Profile,UserProfile, UnAuthorized, DjDashboard, DjProfile, BookingDashboard } from "./pages";
 import ProtectedRoutes from "./helper/ProtectedRoutes";
 // const LazyDjs = React.lazy(() => import("./pages/djs/Djs"));
 
-function App() {
+function App() { 
   return (
     <>
       <Routes> 
-
+ 
         {/*  admin access */}
         <Route element={<ProtectedRoutes userType={"Admin"} /> }>
           <Route index path="/admin-dashboard" element={<AdminDashboard />}/>
@@ -16,6 +16,7 @@ function App() {
           <Route path='/admin-dashboard/djs' element={<DjDashboard/>} />
           <Route path='/admin-dashboard/bookings' element={<BookingDashboard/>} />
           <Route path='/user/:id' element={<UserProfile/>} />
+          <Route path="/dj/:id" element={<DjProfile/>} />
           <Route path="/unauthorized" element={<UnAuthorized />}></Route>   
           <Route path="*" element={<NotFound />} />
         </Route>

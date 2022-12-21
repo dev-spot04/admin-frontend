@@ -137,7 +137,7 @@ const DjTable = () => {
                                     <TableCell component="th" scope="row">
                                         {row.sno}
                                     </TableCell>
-                                    <TableCell component="th" onClick={()=> navigate(`/user/:${row.id}`)} scope="row"><span className='hover:cursor-pointer'>{row.name}</span></TableCell>
+                                    <TableCell component="th" onClick={()=> navigate(`/dj/${row.id}`)} scope="row"><span className='hover:cursor-pointer'>{row.name}</span></TableCell>
                                     <TableCell component="th" scope="row">{row.email}</TableCell>
                                     <TableCell >{row.doj}</TableCell>
                                     <TableCell align="right" onClick={() => {setId(row.id); setBlockOpen(true); setBlockStatus(row.block)}}><div className="hover:cursor-pointer"> { row.block==='true'? (<HowToRegIcon />) : (<BlockIcon />)}</div></TableCell>

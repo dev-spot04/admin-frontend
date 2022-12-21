@@ -101,5 +101,5 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
         </Transition>
     )
 }
-
+ 
 export default UserFilterModal;

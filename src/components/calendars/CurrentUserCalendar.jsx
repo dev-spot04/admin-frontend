@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { add, format, isSameDay, parseISO, startOfToday } from "date-fns";
-import { CurrentUserBookingModal } from "../modals";
 import Calendar from "./Calendar";
 import { useSelector } from "react-redux";
 
@@ -64,11 +63,6 @@ export default function CurrentUserCalendar() {
           selectAppropriateDate={selectAppropriateDate}
         />
       </div>
-      <CurrentUserBookingModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        selectedDay={selectedDay}
-      />
     </div>
   );
 }
