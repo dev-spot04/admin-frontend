@@ -12,3 +12,6 @@ export const GET_ALL_BOOKINGS = `${BASE_URL}/api/booking/get-all-booking`
 export const GET_USER_BOOKINGS = `${BASE_URL}/api/booking/get-admin-user-booking/638b475ee7d4bffe9358242e`
 export const GET_DJ_RATINGS = `${BASE_URL}/api/booking/get-admin-dj-rating/638b481bf64654067ad7142a`
 export const GET_DJ_CALANDER = `${BASE_URL}/api/booking/get-admin-dj-calendar/638b481bf64654067ad7142a`
+export const SEARCH_USER_DJ = `${BASE_URL}/api/user/search-user-dj`
+export const SEARCH_BOOKING= `${BASE_URL}/api/booking/admin-booking-search`
+export const UPDATE_BLOCK = `${BASE_URL}/api/user/update-block-status`

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import {useNavigate} from "react-router-dom";
 import BlockIcon from '@mui/icons-material/Block';
-import { FilterAdminModal } from "../modals";
+import { FilterAdminModal, Block } from "../modals";
 import Table from '@mui/material/Table';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import TableBody from '@mui/material/TableBody';
@@ -13,13 +14,18 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { ClipLoader } from "react-spinners";
 import Paper from '@mui/material/Paper';
 import axios from "axios";
-import { GET_ALL_DJS } from "../../constant/constants";
+import { GET_ALL_DJS, SEARCH_USER_DJ, UPDATE_BLOCK } from "../../constant/constants";
 
 const DjTable = () => {
     const [tableData, setTableData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [id, setId] = useState('')
+    const [blockStatus, setBlockStatus]= useState()
+    const [blockOpen, setBlockOpen] = useState(false);
+    const [loading, setLoading] = useState(true)
     const { user } = useSelector((state) => state.auth);
-
+    const navigate = useNavigate();
+    
     const fetchData = async (LINK) => {
         try {
             const data = await axios.get(LINK, { headers: { Authorization: `Bearer ${user.data.token}` }, });
@@ -31,9 +37,48 @@ const DjTable = () => {
 
     useEffect(() => {
         fetchData(GET_ALL_DJS)
-            .then(res => setTableData(res.data.dj))
+            .then(res => { setLoading(false)
+                setTableData(res.data.dj)})
             .catch(err => console.log(err))
     }, []);
+
+    const filterFilter = async ({ date1, date2, sps, pricing, ratings}) => {
+        const data = await axios.post(SEARCH_USER_DJ, {
+            firstDate: date1, lastDate: date2, userType: 'dj', pricing, ...sps, ...ratings
+        } ,{ headers: { Authorization: `Bearer ${user.data.token}` }});
+        return data;
+    }
+
+    const filterData= ( {pricing, sps, firstDate, secondDate, ratings}) => {
+        try{setIsOpen(false)
+        setLoading(true)
+        let MM = Number(firstDate.$M) +1
+        const date1= firstDate.$y + '-' + MM  + '-' + firstDate.$D || ''
+        MM= Number(secondDate.$M) +1
+        const date2= secondDate.$y + '-' + MM + '-' + secondDate.$D || ''
+        
+        filterFilter({date1, date2, pricing, sps, ratings})
+            .then(res =>{ setLoading(false)
+                setTableData(res.data.data.dj)})
+            .catch(err => setLoading(false))}
+            catch(err){}
+    }
+
+    const updateBlock= async({id, status}) => {
+        const data=await axios.post(UPDATE_BLOCK, {
+            userId: id, blockStatus: status},{ headers: { Authorization: `Bearer ${user.data.token}` }
+    })
+        return data.data
+    }
+
+    const blockUser= ({id, blockStatus}) => {
+        setBlockOpen(false)
+
+        const status= blockStatus==='false'
+        updateBlock({id, status})
+        .then(res => window.location.reload())
+        .catch()
+    }
 
     function createData(
         sno: number,
@@ -70,7 +115,7 @@ const DjTable = () => {
                 </div>
             </div>
 
-            {tableData.length === 0 ? (<div className="text-center mt-[4em]"><ClipLoader /></div>) : (
+            {loading ? (<div className="text-center mt-[4em]"><ClipLoader /></div>) : (
                 <TableContainer component={Paper} className='mb-10 mt-4'>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -92,10 +137,10 @@ const DjTable = () => {
                                     <TableCell component="th" scope="row">
                                         {row.sno}
                                     </TableCell>
-                                    <TableCell component="th" scope="row">{row.name}</TableCell>
+                                    <TableCell component="th" onClick={()=> navigate(`/user/:${row.id}`)} scope="row"><span className='hover:cursor-pointer'>{row.name}</span></TableCell>
                                     <TableCell component="th" scope="row">{row.email}</TableCell>
                                     <TableCell >{row.doj}</TableCell>
-                                    <TableCell align="right">{row.block ? (<BlockIcon />) : (<HowToRegIcon />)}</TableCell>
+                                    <TableCell align="right" onClick={() => {setId(row.id); setBlockOpen(true); setBlockStatus(row.block)}}><div className="hover:cursor-pointer"> { row.block==='true'? (<HowToRegIcon />) : (<BlockIcon />)}</div></TableCell>
                                 </TableRow>
                             ))
                             }
@@ -104,7 +149,8 @@ const DjTable = () => {
                     </Table>
                 </TableContainer>)
             }
-            <FilterAdminModal isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Block blockOpen={blockOpen} setBlockOpen={setBlockOpen} id={id} blockUser={blockUser} blockStatus={blockStatus} user='dj'/>
+            <FilterAdminModal isOpen={isOpen} setIsOpen={setIsOpen} handleFilter={filterData}/>
         </div>
     )
 }

@@ -8,7 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
-const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
+const BookingFilter = ({ isOpen, setIsOpen, handleFilter }) => {
     library.add(faStar, faCaretRight);
     const [firstDate, setFirstDate] = React.useState(null);
     const [secondDate, setSecondDate] = React.useState(null);
@@ -57,7 +57,7 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
                                         <div className="relative">
                                             <h1 className="text-[1.4em] m-[2em] text-center font-semibold text-xl font-roboto">Select Filter</h1>
                                             <div className="w-[80%] mx-auto">
-                                                <h1 className="mb-[1em] font-semibold text-xl font-roboto">Date Of Joining</h1>
+                                                <h1 className="mb-[1em] font-semibold text-xl font-roboto">Event Date</h1>
                                                 <div className="inline mt-[1em] mb-[1em]  max-sm:block max-sm:w-[80%] max-sm:mx-auto">
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                         <DatePicker
@@ -85,7 +85,7 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
                                             </div>
 
                                         </div>
-                                        <div className="flex justify-center mt-[1rem] mb-[1em]">
+                                        <div className="flex justify-center mt-[1.5rem] mb-[1em]">
                                             <button onClick={()=> handleFilter({firstDate, secondDate})}
                                                 className="bg-blue hover:bg-mid-blue rounded-lg py-2 px-16 text-white font-roboto "
                                             >
@@ -102,4 +102,4 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
     )
 }
 
-export default UserFilterModal;
+export default BookingFilter;

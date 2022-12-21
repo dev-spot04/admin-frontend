@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import BlockIcon from '@mui/icons-material/Block';
-import { FilterAdminModal } from "../modals";
+import { BookingFilter } from "../modals";
 import Table from '@mui/material/Table';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -13,11 +11,12 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { ClipLoader } from "react-spinners";
 import Paper from '@mui/material/Paper';
 import axios from "axios";
-import { GET_ALL_BOOKINGS } from "../../constant/constants";
+import { GET_ALL_BOOKINGS, SEARCH_BOOKING } from "../../constant/constants";
 
 const BookingTable = () => {
     const [tableData, setTableData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading]= useState(true)
     const { user } = useSelector((state) => state.auth);
 
     const fetchData = async (LINK) => {
@@ -25,15 +24,38 @@ const BookingTable = () => {
             const data = await axios.get(LINK, { headers: { Authorization: `Bearer ${user.data.token}` }, });
             return data.data;
         } catch (err) {
-            console.log('err')
+            
+            // console.log('err')
         }
     }
 
     useEffect(() => {
         fetchData(GET_ALL_BOOKINGS)
-            .then(res => setTableData(res.data.booking))
-            .catch(err => console.log(err))
+            .then(res => { setLoading(false)
+                setTableData(res.data.booking)})
+            .catch(err => setLoading(false))
     }, []);
+
+    const filterFilter = async ({ date1, date2}) => {
+
+        const data = await axios.post(SEARCH_BOOKING, {firstDate: date1, lastDate: date2 },
+            { headers: { Authorization: `Bearer ${user.data.token}` }});
+        return data;
+    }
+
+    const filterData= ( {firstDate, secondDate}) => {
+        setIsOpen(false)
+        try{let MM = Number(firstDate.$M) +1
+        const date1= firstDate.$y + '-' + MM  + '-' + firstDate.$D || ''
+        MM= Number(secondDate.$M) +1
+        const date2= secondDate.$y + '-' + MM + '-' + secondDate.$D || ''
+        
+        filterFilter({date1, date2})
+            .then(res => { setLoading(false)
+                setTableData(res.data.data.booking)})
+            .catch(err => setLoading(false))}
+            catch(err){}
+    }
 
     function createData(
         sno: number,
@@ -50,7 +72,7 @@ const BookingTable = () => {
     let sno = 1
     const rows =
         tableData.map((rowData, sno) => {
-            return createData(`${sno + 1}`, `${rowData.event || '-'}`, `${rowData.djId.djName || '-'}`, `${rowData.date}`, `${rowData.location || '-'}` , `${rowData.eventStatus}`)
+            return createData(`${sno + 1}`, `${rowData.event || '-'}`, `${rowData.djId.djName || '-'}`, `${rowData.date}`, `${rowData.location || '-'}` , `${rowData.status}`)
         })
 
 
@@ -71,7 +93,7 @@ const BookingTable = () => {
                 </div>
             </div>
 
-            {tableData.length === 0 ? (<div className="text-center mt-[4em]"><ClipLoader /></div>) : (
+            {loading ? (<div className="text-center mt-[4em]"><ClipLoader /></div>) : (
                 <TableContainer component={Paper} className='mb-10 mt-4'>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -107,7 +129,7 @@ const BookingTable = () => {
                     </Table>
                 </TableContainer>)
             }
-            <FilterAdminModal isOpen={isOpen} setIsOpen={setIsOpen} />
+            <BookingFilter isOpen={isOpen} setIsOpen={setIsOpen} handleFilter={filterData}/>
         </div>
     )
 }
