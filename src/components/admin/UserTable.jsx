@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import BlockIcon from '@mui/icons-material/Block';
 import { UserFilterModal, Block } from "../modals";
+import { useNavigate } from "react-router-dom";
 import Table from '@mui/material/Table';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import TableBody from '@mui/material/TableBody';
@@ -24,7 +25,7 @@ const UserTable = () => {
     const [blockOpen, setBlockOpen] = useState(false);
     const [loading, setLoading] = useState(true)
     const { user } = useSelector((state) => state.auth);
-    
+    const navigate= useNavigate()
 
     const fetchData = async (LINK) => {
         try {
@@ -140,7 +141,7 @@ const UserTable = () => {
                                     <TableCell component="th" scope="row">
                                         {row.sno}
                                     </TableCell>
-                                    <TableCell component="th" scope="row">{row.name}</TableCell>
+                                    <TableCell component="th" scope="row"><span className="hover:cursor-pointer" onClick={()=> navigate(`/user/${row.id}`)}>{row.name}</span></TableCell>
                                     <TableCell component="th" scope="row">{row.email}</TableCell>
                                     <TableCell component="th" scope="row">{row.zipCode}</TableCell>
                                     <TableCell >{row.doj}</TableCell>

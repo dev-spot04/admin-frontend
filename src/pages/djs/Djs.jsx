@@ -67,7 +67,7 @@ const Djs = () => {
         dispatch(getRagtingsAndReview({ id, accessToken: user.data.token }));
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [isRateModalOpen]);
 
   function openBookingRequestModal() {
