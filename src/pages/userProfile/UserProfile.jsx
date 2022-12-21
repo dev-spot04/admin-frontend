@@ -36,8 +36,6 @@ const UserProfile = () => {
       .catch(err => err)
   }, [])
 
-  console.log(userBookings)
-
   return (<>
     <AdminNav />
     <div className="mx-[41px] mt-[6em] max-sm:mx-4 max-2md:mt-[5rem]">

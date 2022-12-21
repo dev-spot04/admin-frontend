@@ -58,7 +58,7 @@ const DjTable = () => {
         const date2= secondDate.$y + '-' + MM + '-' + secondDate.$D || ''
         
         filterFilter({date1, date2, pricing, sps, ratings})
-            .then(res =>{ setLoading(false)
+            .then(res =>{    setLoading(false);
                 setTableData(res.data.data.dj)})
             .catch(err => setLoading(false))}
             catch(err){}
