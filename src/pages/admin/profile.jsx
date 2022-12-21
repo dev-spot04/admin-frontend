@@ -10,7 +10,7 @@ export default function Profile() {
     return (
         <>
             <AdminNav  showDashboard={true}/>
-            <div className="w-[400px] max-sm:w-[90%] mt-[4em] mx-auto text-center">
+            <div className="w-[80%] max-sm:w-[90%] mt-[8em] mx-auto ">
                 <div className="w-full">
                     {/* ------form container-------- */}
                     <div className="flex justify-between  max-2xl:flex-wrap max-2xl:space-x-0  space-x-[55px] mb-8">

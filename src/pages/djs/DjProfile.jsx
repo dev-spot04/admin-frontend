@@ -13,75 +13,70 @@ import {
 } from "../../components";
 import { format, add } from "date-fns";
 import useProfileImage from "../../hooks/useProfileImage";
+import axios from "axios";
+import { GET_DJ_DETAILS, GET_DJ_RATINGS } from "../../constant/constants";
 
 const DjProfile = () => {
   // modal states
   const [eventDate, setEventDate] = useState("");
   const { id } = useParams();
   const { user } = useSelector((state) => state.auth);
+  const [djDetails, setDjDetails] = useState({});
+  const [djRatingsAndReview, setDjRatingsAndReview] = useState([]);
   library.add(faStar, faStarHalfStroke, faCheck);
 
-  // const hasUserRated = useMemo(() => {
-  //   return djRatingsAndReview.some(
-  //     (userRating) => userRating.userId._id === user.data.user._id
-  //   );
-  // }, [djRatingsAndReview, user.data.user._id]);
-
-  const averageRatings = 3
-  //   (djRatingsAndReview &&
-  //     djRatingsAndReview.reduce((acc, val) => (acc += val.rating), 0) /
-  //       djRatingsAndReview.length) ||
-  //   0;
+  const averageRatings = 
+    (djRatingsAndReview &&
+      djRatingsAndReview.reduce((acc, val) => (acc += val.rating), 0) /
+        djRatingsAndReview.length) ||
+    0;
 
   const wholeStar = Math.floor(averageRatings);
   const halfStar = wholeStar < averageRatings;
   const range =
     Math.round((averageRatings.toFixed(1) + "").split(".")[1]) < 5 ? 0 : 1;
 
-  // useEffect(() => {
-  //   if (user) {
-  //     if (id) {
-  //       dispatch(getDjById({ id, accessToken: user.data.token }));
-  //       dispatch(getRagtingsAndReview({ id, accessToken: user.data.token }));
-  //       dispatch(getUserBookings(user.data.token));
-  //     }
-  //   }
-  // }, [id, user, dispatch]);
+  
+    const fetchData = async (LINK) => {
+      try {
+          const data = await axios.get(LINK, { headers: { Authorization: `Bearer ${user.data.token}` }, });
+          return data.data.data;
+      } catch (err) {
+      }
+  }
 
-  // useEffect(() => {
-  //   if (user) {
-  //     if (id) {
-  //       dispatch(getDjById({ id, accessToken: user.data.token }));
-  //       dispatch(getRagtingsAndReview({ id, accessToken: user.data.token }));
-  //     }
-  //   }
+  useEffect(()=>{
+    fetchData(`${GET_DJ_DETAILS}${id}`)
+    .then(res => setDjDetails(res.dj))
+    .catch()
 
-  // }, [isRateModalOpen]);
+    fetchData(`${GET_DJ_RATINGS}${id}`)
+    .then(res => setDjRatingsAndReview(res.rating))
+    .catch()
+  }, [])
 
   return (
     <>
     <AdminNav />
       <div
         className="flex justify-between space-x-[5rem] max-xl:space-x-0 max-xl:justify-center xl:flex-nowrap flex-wrap mx-[41px] 
-       max-sm:mx-4 max-2md:mt-[5rem] mb-[4rem] mt-[4rem]"
+       max-sm:mx-4 max-2md:mt-[5rem] mt-[4rem]"
       >
         <div className="w-full">
           <h2 className="w-[max-content] mb-[34px]">
-            <span className="text-[30px]  font-semibold font-inter">Dj Name</span>
-            {/* <span className="text-[30px]  font-semibold font-inter">
+            <span className="text-[30px]  font-semibold font-inter">
             {djDetails.djName ? djDetails.djName : "No Name"}
-          </span> */}
+          </span>
             <span className="text-sm font-semibold font-inter">(PRO+)</span>
           </h2>
           <figure className="relative w-full">
             <img
               className="w-full h-[442px] object-cover rounded-2xl shadow-item-shadow"
-              // src={
-              //   djDetails.profileImage
-              //     ? djDetails.profileImage
-              //     : "../assets/images/mount.jpg"
-              // }
-              src='../assets/images/mount.jpg'
+              src={
+                djDetails.profileImage
+                  ? djDetails.profileImage
+                  : "../assets/images/mount.jpg"
+              }
               alt="dj"
             />
             <div className="flex space-x-4 absolute bottom-[1rem] right-[1rem]">
@@ -90,7 +85,7 @@ const DjProfile = () => {
           </figure>
           <div className="flex justify-between items-center mt-[28px] mb-[13px]">
             <h3 className="text-[15px] font-semibold font-inter">ABOUT DJ</h3>
-            {/* <div className="flex items-baseline text-[16px]">
+            <div className="flex items-baseline text-[16px]">
               {[...Array(5)].map((_, index) => {
                 index += 1;
                 return index <= wholeStar ? (
@@ -114,18 +109,15 @@ const DjProfile = () => {
               <span className="text-mid-blue text-[15px] ml-[11px] font-normal">
                 ({averageRatings.toFixed(1)}) ratings
               </span>
-            </div> */}
+            </div>
           </div>
           <p className="text-[15px] font-normal font-gill">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam minus natus eveniet quas porro nostrum magni consequatur unde explicabo, officiis libero aut laudantium impedit, dolorum esse! Ratione officiis, at numquam rerum cumque totam accusantium! Fugit laudantium eveniet officia vero minus reprehenderit adipisci a asperiores cum sint! Ab repellendus vitae corporis dolore. Magnam in odit modi ab dicta incidunt cupiditate aperiam non animi aliquam.
-          </p>
-          {/* <p className="text-[15px] font-normal font-gill">
           {djDetails.djBio
             ? djDetails.djBio
             : `Aliquam vitae dolor eu quam suscipit sodales. Curabitur metus leo,
           gravida eleifend magna in, fringilla finibus purus. Pellentesque quis
           lorem massa. Suspendisse eget nulla vel dolor rhoncus..`}
-        </p> */}
+        </p>
           <h3 className="text-[15px] font-semibold mt-[28px] mb-4 font-inter">
             Specialties
           </h3>
@@ -148,15 +140,13 @@ const DjProfile = () => {
           </h2>
           {/* calendar */}
           <div className="rounded-2xl shadow-cal-shadow max-xs:px-4 px-[28px] pt-[10px] pb-4 font-inter">
-            {/* djs calendar*/}
-            {/* <DjsCalendar djName={djDetails.djName} djRate={djDetails.rate} /> */}
             <Calendar />
           </div>
           <div className="flex justify-between items-center mt-[64px]  mb-[53px]">
             <h2 className="text-[30px] font-semibold  font-inter">Ratings</h2>
           </div>
           {/* Ratings */}
-          {/* <div className="h-[240px] w-full pr-4 scrollbar overflow-y-auto">
+          <div className="h-[240px] w-full pr-4 scrollbar overflow-y-auto">
           {djRatingsAndReview.length === 0 ? (
             <div className="font-inter font-semibold text-normal text-center">
               No Ratings Currently
@@ -166,7 +156,7 @@ const DjProfile = () => {
               <RatingItem key={rat._id} rat={rat} />
             ))
           )}
-        </div> */}
+        </div>
         </div>
       </div>
     </>
@@ -174,13 +164,12 @@ const DjProfile = () => {
 };
 
 const RatingItem = ({ rat }) => {
-  const { userImage } = useProfileImage();
 
   return (
     <div className="flex border-b border-gray-light pb-[33px] mt-[22px]">
       <figure className="w-[100px] pt-1">
         <img
-          src={userImage ? userImage : "../assets/profile/profile.png"}
+          src={rat.userId.profileImage ? rat.userId.profileImage : "../assets/profile/profile.png"}
           alt="user review"
           className="rounded-full w-[71px] h-[71px] object-cover"
         />
