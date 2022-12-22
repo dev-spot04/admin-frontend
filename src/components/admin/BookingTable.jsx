@@ -72,6 +72,7 @@ const BookingTable = () => {
     let sno = 1
     const rows =
         tableData.map((rowData, sno) => {
+            if (rowData.status === 'Off') return <></>
             return createData(`${sno + 1}`, `${rowData.event || '-'}`, `${rowData.djId.djName || '-'}`, `${rowData.date}`, `${rowData.location || '-'}` , `${rowData.status}`)
         })
 
@@ -119,11 +120,11 @@ const BookingTable = () => {
                                     <TableCell component="th" scope="row">{row.eventName}</TableCell>
                                     <TableCell component="th" scope="row">{row.djName}</TableCell>
                                     <TableCell >{row.eventDate}</TableCell>
-                                    <TableCell >{row.location}</TableCell>
-                                    <TableCell align="right">{row.status}</TableCell>
+                                    <TableCell >{row.location}</TableCell> 
+                                    <TableCell align="right"><span className={`rounded block w-[6em] py-1 ml-auto text-center text-gray-200 ${row.status === 'Accepted'? "bg-green" : row.status==='Pending' ? "bg-yellow" : "bg-red text-white" }`}>{row.status}</span></TableCell>
                                 </TableRow>
                             ))
-                            }
+                            } 
                         </TableBody>
 
                     </Table>

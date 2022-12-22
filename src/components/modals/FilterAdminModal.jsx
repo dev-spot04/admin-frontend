@@ -236,10 +236,10 @@ const FilterAdminModal = ({ isOpen, setIsOpen, handleFilter }) => {
                   </figure>
                 </div>
                 <div>
-                  <div className="w-[80%] mx-auto">
+                  <div className="w-[85%] mx-auto">
                     <h1 className="mb-[1em] font-semibold text-xl font-roboto mt-[2em]">Date Of Joining</h1>
                     <div className="mb-[1.5em]">
-                      <div className="inline mt-[1em] mb-[1em]  max-sm:block max-sm:w-[80%] max-sm:mx-auto">
+                      <div className="inline mt-[1em] mb-[1em]  max-mm:block max-mm:w-[80%] max-mm:mx-auto">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DatePicker
                             label="First Date"
@@ -251,7 +251,7 @@ const FilterAdminModal = ({ isOpen, setIsOpen, handleFilter }) => {
                           />
                         </LocalizationProvider>
                       </div>
-                      <div className="inline ml-[1em] max-sm:block max-sm:w-[80%] max-sm:mx-auto">
+                      <div className="inline ml-[2em] max-mm:block max-mm:w-[80%] max-mm:mx-auto">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DatePicker
                             label="Second Date"

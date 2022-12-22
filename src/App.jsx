@@ -19,7 +19,7 @@ function App() {
           <Route path="/dj/:id" element={<DjProfile/>} />
           <Route path="/unauthorized" element={<UnAuthorized />}></Route>   
           <Route path="*" element={<NotFound />} />
-        </Route>
+        </Route>  
 
         {/* public url */}
         <Route path="/login" element={<LogIn />} />

@@ -20,6 +20,7 @@ module.exports = {
       "blue-light": "rgba(0, 133, 255, 1)",
       "matte-blue": "rgba(8, 92, 109, 1)",
       "mid-blue": "rgba(0, 122, 255, 1)",
+      red: "#e53e3e",
       gray: "#737070",
       blue: "rgba(0, 133, 255, 1)",
       white: "rgb(255 255 255)",
@@ -67,6 +68,7 @@ module.exports = {
       "max-lg": { max: "1023px" },
       "max-sm": { max: "540px" },
       "max-xs": { max: "440px" },
+      "max-mm": { max: "640px" },
 
       //breakpoints for dashboard
       "max-2md": { max: "800px" },

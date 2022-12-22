@@ -31,7 +31,6 @@ const AdminNav = (props) => {
     return (
         <div
                 className={`bg-blue-darkest top-0 v-screen text-white  
-    transition-all duration-300 delay-100 ease-linear 
      w-[100%] h-[8em] z-30`}
             >
                 <div className="container">

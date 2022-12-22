@@ -13,7 +13,7 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
     const [firstDate, setFirstDate] = React.useState(null);
     const [secondDate, setSecondDate] = React.useState(null);
     const formClose = () => { setIsOpen(false) };
-    
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={() => formClose()}>
@@ -54,44 +54,46 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
                                     </figure>
                                 </div>
                                 <div>
-                                        <div className="relative">
-                                            <h1 className="text-[1.4em] m-[2em] text-center font-semibold text-xl font-roboto">Select Filter</h1>
-                                            <div className="w-[80%] mx-auto">
-                                                <h1 className="mb-[1em] font-semibold text-xl font-roboto">Date Of Joining</h1>
-                                                <div className="inline mt-[1em] mb-[1em]  max-sm:block max-sm:w-[80%] max-sm:mx-auto">
-                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DatePicker
-                                                            label="First Date"
-                                                            value={firstDate}
-                                                            onChange={(newDate) => {
-                                                                setFirstDate(newDate);
-                                                            }}
-                                                            renderInput={(params) => <TextField {...params} />}
-                                                        />
-                                                    </LocalizationProvider>
-                                                </div>
-                                                <div className="inline ml-[1em] max-sm:block max-sm:w-[80%] max-sm:mx-auto">
-                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DatePicker
-                                                            label="Second Date"
-                                                            value={secondDate}
-                                                            onChange={(newValue) => {
-                                                                setSecondDate(newValue);
-                                                            }}
-                                                            renderInput={(params) => <TextField {...params} />}
-                                                        />
-                                                    </LocalizationProvider>
-                                                </div>
+                                    <div className="relative">
+                                        <h1 className="text-[1.4em] m-[2em] text-center font-semibold text-xl font-roboto">Search User</h1>
+                                        <div className="w-[85%] mx-auto">
+                                            <h1 className="mb-[1em] font-semibold text-xl font-roboto">Date Of Joining</h1>
+
+                                            <div className="inline mt-[1em] mb-[1em]  max-mm:block max-mm:w-[80%] max-mm:mx-auto">
+                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                    <DatePicker
+                                                        label="First Date"
+                                                        value={firstDate}
+                                                        onChange={(newDate) => {
+                                                            setFirstDate(newDate);
+                                                        }}
+                                                        renderInput={(params) => <TextField {...params} />}
+                                                    />
+                                                </LocalizationProvider>
+                                            </div>
+                                            <div className="inline ml-[2em] max-mm:block max-mm:w-[80%] max-mm:mx-auto">
+                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                    <DatePicker
+                                                        label="Second Date"
+                                                        value={secondDate}
+                                                        onChange={(newValue) => {
+                                                            setSecondDate(newValue);
+                                                        }}
+                                                        renderInput={(params) => <TextField {...params} />}
+                                                    />
+                                                </LocalizationProvider>
                                             </div>
 
                                         </div>
-                                        <div className="flex justify-center mt-[1rem] mb-[1em]">
-                                            <button onClick={()=> handleFilter({firstDate, secondDate})}
-                                                className="bg-blue hover:bg-mid-blue rounded-lg py-2 px-16 text-white font-roboto "
-                                            >
-                                                Apply Filter
-                                            </button>
-                                        </div>
+
+                                    </div>
+                                    <div className="flex justify-center mt-[1rem] mb-[1em]">
+                                        <button onClick={() => handleFilter({ firstDate, secondDate })}
+                                            className="bg-blue hover:bg-mid-blue rounded-lg py-2 px-16 text-white font-roboto "
+                                        >
+                                            Apply Filter
+                                        </button>
+                                    </div>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
@@ -101,5 +103,5 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
         </Transition>
     )
 }
- 
+
 export default UserFilterModal;

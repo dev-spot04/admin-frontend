@@ -55,8 +55,8 @@ const BookingFilter = ({ isOpen, setIsOpen, handleFilter }) => {
                                 </div>
                                 <div>
                                         <div className="relative">
-                                            <h1 className="text-[1.4em] m-[2em] text-center font-semibold text-xl font-roboto">Select Filter</h1>
-                                            <div className="w-[80%] mx-auto">
+                                            <h1 className="text-[1.4em] m-[2em] text-center font-semibold text-xl font-roboto">Search Booking</h1>
+                                            <div className="w-[85%] mx-auto">
                                                 <h1 className="mb-[1em] font-semibold text-xl font-roboto">Event Date</h1>
                                                 <div className="inline mt-[1em] mb-[1em]  max-sm:block max-sm:w-[80%] max-sm:mx-auto">
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -70,7 +70,7 @@ const BookingFilter = ({ isOpen, setIsOpen, handleFilter }) => {
                                                         />
                                                     </LocalizationProvider>
                                                 </div>
-                                                <div className="inline ml-[1em] max-sm:block max-sm:w-[80%] max-sm:mx-auto">
+                                                <div className="inline ml-[2em] max-sm:block max-sm:w-[80%] max-sm:mx-auto">
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                         <DatePicker
                                                             label="Second Date"
