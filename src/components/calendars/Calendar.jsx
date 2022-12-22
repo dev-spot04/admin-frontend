@@ -14,16 +14,11 @@ import {
   isToday,
   isAfter,
   parse,
-  parseISO,
   startOfToday,
 } from "date-fns";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import { Tooltip, tooltipClasses } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { GrLocation } from "react-icons/gr";
-import { BiTime } from "react-icons/bi";
-import { GET_DJ_CALANDER } from "../../constant/constants";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function classNames(...classes) {
@@ -41,17 +36,15 @@ const TooltipItem = styled(({ className, ...props }) => (
   },
 }));
 
-export default function Calendar() {
+export default function Calendar({djCalendarList}) {
   const today = startOfToday();
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   const [showNextBtn, setShowNextBtn] = useState(false);
   const [showPrevBtn, setShowprevBtn] = useState(false);
   const [selectedDay, setSelectedDay] = useState(today);
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
-  const { user } = useSelector((state) => state.auth);
-  const {id} = useParams()
   library.add(faAngleLeft, faAngleRight);
-  const [djCalendarList, setDjCalendarList ]= useState([])
+
   // memoizing the days of the entire month
   const days = useMemo(() => { 
     return eachDayOfInterval({
@@ -60,16 +53,6 @@ export default function Calendar() {
     });
   }, [currentMonth]);
  
-  const fetchCalendar = async() => {
-    const response = await axios.get(`${GET_DJ_CALANDER}${id}`, { headers: { Authorization: `Bearer ${user.data.token}` }})
-    return response.data.data
-  }
-
-  useEffect(() => {
-      fetchCalendar()
-      .then(res => setDjCalendarList(res.djBooking))
-      .catch( )
-  }, []);
   useEffect(() => {
     if (
       firstDayCurrentMonth.getFullYear() ===

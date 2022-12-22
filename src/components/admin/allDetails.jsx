@@ -16,25 +16,27 @@ const AllDetails = (props) => {
             const data = await axios.get(LINK, { headers: { Authorization: `Bearer ${user.data.token}` }, });
             return data.data;
         } catch (err) {
-            console.log('err')
         }
     }
 
     useEffect(() => {
         fetchData(USER_COUNT_URL)
             .then(res => {
-                const response = res.data.count[0]
+                try{const response = res.data.count[0]
                 const { TotalDj, TotalUser } = response
-                setData(prev => ({ ...prev, TotalDj, TotalUser }))
+                setData(prev => ({ ...prev, TotalDj, TotalUser }))}
+                catch(err){}
             })
-            .catch(err => console.log(err))
+            .catch()
 
         fetchData(GET_BOOKING_COUNT)
             .then(res => {
-                const response = res.data.count[0]
+                try{const response = res.data.count[0]
                 const TotalBooking= Number(response.Accepted) + Number(response.Pending) + Number(response.Decline)
-                setData(prev => ({ ...prev, TotalBooking }))
+                setData(prev => ({ ...prev, TotalBooking }))}
+                catch(err){}
             })
+            .catch()
     }, []);
 
 

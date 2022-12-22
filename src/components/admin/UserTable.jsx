@@ -15,13 +15,13 @@ import { ClipLoader } from "react-spinners";
 import Paper from '@mui/material/Paper';
 import axios from "axios";
 import { GET_ALL_USERS, SEARCH_USER_DJ, UPDATE_BLOCK } from "../../constant/constants";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const UserTable = () => {
     const [tableData, setTableData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [id, setId] = useState('')
     const [blockStatus, setBlockStatus]= useState()
+    const [blockReq, setBlockReq]= useState(false);
     const [blockOpen, setBlockOpen] = useState(false);
     const [loading, setLoading] = useState(true)
     const { user } = useSelector((state) => state.auth);
@@ -32,7 +32,6 @@ const UserTable = () => {
             const data = await axios.get(LINK, { headers: { Authorization: `Bearer ${user.data.token}` }, });
             return data.data;
         } catch (err) {
-            console.log('err')
         }
     }
 
@@ -42,8 +41,8 @@ const UserTable = () => {
                 setLoading(false)
                 setTableData(res.data.dj)
             })
-            .catch(err => console.log(err))
-    }, []);
+            .catch()
+    }, [blockReq]);
 
     const filterFilter = async ({ date1, date2 }) => {
         const data = await axios.post(SEARCH_USER_DJ, {
@@ -80,7 +79,7 @@ const UserTable = () => {
 
         const status= blockStatus==='false'
         updateBlock({id, status})
-        .then(res => window.location.reload())
+        .then(res => { setLoading(true); setBlockReq(!blockReq)})
         .catch()
     }
 
