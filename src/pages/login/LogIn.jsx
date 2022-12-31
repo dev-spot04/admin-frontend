@@ -29,6 +29,16 @@ const LogIn = () => {
               className="flex  max-sm:hidden flex-col justify-center max-lg:relative  
                h-full text-black-dark ml-[3.563rem] flex-wrap"
             >
+              <h2
+                className="leading-[2.7rem]  max-lg:absolute  bottom-[1rem] font-bold w-[max-content] 
+                  max-sm:text-[2rem] text-[2.5rem] ml-[3.3em]"
+              ><span>Admin</span>
+              </h2>
+              <h2
+                className="leading-[2.7rem]  max-lg:absolute  bottom-[1rem] font-bold w-[max-content] 
+                  max-sm:text-[2rem] text-[1.8rem] ml-[6em]"
+              ><span>Login</span>
+              </h2>
             </div>
           ) : (
             <div
