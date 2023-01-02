@@ -70,7 +70,7 @@ const BookingFilter = ({ isOpen, setIsOpen, handleFilter }) => {
                                                         />
                                                     </LocalizationProvider>
                                                 </div>
-                                                <div className="inline ml-[2em] max-sm:block max-sm:w-[80%] max-sm:mx-auto">
+                                                <div className="inline ml-[1em] max-sm:block max-sm:w-[80%] max-sm:mx-auto">
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                         <DatePicker
                                                             label="Second Date"

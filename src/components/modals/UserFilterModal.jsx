@@ -71,7 +71,7 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
                                                     />
                                                 </LocalizationProvider>
                                             </div>
-                                            <div className="inline ml-[2em] max-mm:block max-mm:w-[80%] max-mm:mx-auto">
+                                            <div className="inline ml-[1em] max-mm:block max-mm:w-[80%] max-mm:mx-auto">
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                     <DatePicker
                                                         label="Second Date"
