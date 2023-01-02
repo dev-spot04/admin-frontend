@@ -236,7 +236,7 @@ const FilterAdminModal = ({ isOpen, setIsOpen, handleFilter }) => {
                   </figure>
                 </div>
                 <div>
-                  <div className="w-[33em] mx-auto">
+                  <div className="w-[35em] mx-auto">
                     <h1 className="mb-[1em] font-semibold text-xl font-roboto mt-[2em]">Date Of Joining</h1>
                     <div className="mb-[1.5em]">
                       <div className="inline mt-[1em] mb-[1em]  max-mm:block max-mm:w-[80%] max-mm:mx-auto">

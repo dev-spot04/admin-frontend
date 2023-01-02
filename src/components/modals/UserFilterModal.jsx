@@ -56,7 +56,7 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
                                 <div>
                                     <div className="relative">
                                         <h1 className="text-[1.4em] m-[2em] text-center font-semibold text-xl font-roboto">Search User</h1>
-                                        <div className="w-[33em] mx-auto">
+                                        <div className="w-[35em] mx-auto">
                                             <h1 className="mb-[1em] font-semibold text-xl font-roboto">Date Of Joining</h1>
 
                                             <div className="inline mt-[1em] mb-[1em]  max-mm:block max-mm:w-[80%] max-mm:mx-auto">
@@ -83,7 +83,6 @@ const UserFilterModal = ({ isOpen, setIsOpen, handleFilter }) => {
                                                     />
                                                 </LocalizationProvider>
                                             </div>
-
                                         </div>
 
                                     </div>

@@ -56,7 +56,7 @@ const BookingFilter = ({ isOpen, setIsOpen, handleFilter }) => {
                                 <div>
                                         <div className="relative">
                                             <h1 className="text-[1.4em] m-[2em] text-center font-semibold text-xl font-roboto">Search Booking</h1>
-                                            <div className="w-[33em] mx-auto">
+                                            <div className="w-[35em] mx-auto">
                                                 <h1 className="mb-[1em] font-semibold text-xl font-roboto">Event Date</h1>
                                                 <div className="inline mt-[1em] mb-[1em]  max-sm:block max-sm:w-[80%] max-sm:mx-auto">
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
