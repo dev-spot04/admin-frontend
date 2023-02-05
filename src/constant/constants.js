@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3005";
+const BASE_URL = "http://54.227.46.61:3005";
 
 // admin api's
 
